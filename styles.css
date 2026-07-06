@@ -1,0 +1,823 @@
+/* ============================================================
+   styles.css — Diseño del formulario "50 puertas".
+
+   Paleta heredada del prototipo (rosa/morado/dorado) con azules
+   añadidos después (diana, fondos, mirilla). El dorado sigue siendo
+   el color de "seleccionado", con el corazón dorado 💛 original.
+
+   Organización:
+   1. Variables y base          4. Formulario y preguntas
+   2. Hero                      5. Radios corazón
+   3. Layout de tres columnas   6. Envío y puerta 51
+   ============================================================ */
+
+/* ---------- 1. Variables y base ---------- */
+:root {
+  --rosa:        #ff4081;
+  --rosa-fuerte: #ff0040;
+  --rosa-panel:  #ffa2d1;
+  --rosa-claro:  #ffe4ef;
+  --fondo:       #ffeef6;
+  --morado:      #5f2167;
+  --morado-marco:#a41fae;
+  --dorado:      #f5b301;
+  --dorado-osc:  #c98f00;
+  --blanco:      #ffffff;
+  --texto:       #3a2340;
+
+  /* Azules tomados de la diana del hero (Target With Love.png) */
+  --azul-suave:  #cfe3f4; /* fondos: SVG laterales y tarjetas de pregunta */
+  --azul-fuerte: #00c4ff; /* cian eléctrico: título del formulario */
+  --azul-hero:   #1394d4; /* azur vivo, un punto más oscuro: frase del hero */
+  --azul-oscuro: #1f5e96; /* letras sobre fondos claros (interior dorado) */
+  --azul-mirilla:#3a7fb0; /* trazo del cursor de mirilla */
+
+  --fuente-titulos: 'Caveat', cursive;
+  --fuente-cuerpo:  'Poppins', sans-serif;
+
+  /* Cursor pistola-chupachups DESACTIVADO (se conserva por si se
+     quiere recuperar: bastaría descomentar esta variable y usarla
+     donde ahora se usa --cursor-mirilla).
+  --cursor-juguete: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect x='8' y='8.7' width='5' height='2.6' rx='1.3' fill='%23c98f00'/%3E%3Crect x='11' y='6.5' width='13' height='7' rx='3' fill='%23a41fae' stroke='%235f2167' stroke-width='1.2'/%3E%3Crect x='14' y='8' width='3' height='4' rx='1.2' fill='%23ffffff' opacity='.85'/%3E%3Crect x='21' y='5.5' width='9.5' height='9' rx='2.5' fill='%23ff4081' stroke='%235f2167' stroke-width='1.2'/%3E%3Cg transform='rotate(14 25.5 14)'%3E%3Crect x='22.5' y='13' width='6.2' height='13' rx='2.8' fill='%23ff4081' stroke='%235f2167' stroke-width='1.2'/%3E%3C/g%3E%3Cpath d='M25.9 19.4 c-1.5-1.3-2.4-2.1-2.4-3.1a1.35 1.35 0 0 1 2.4-.85 1.35 1.35 0 0 1 2.4.85c0 1-.9 1.8-2.4 3.1z' fill='%23ffe08a'/%3E%3Cpath d='M20.2 14.5 q-3.2 1.4 -1.6 4.6' fill='none' stroke='%235f2167' stroke-width='1.4' stroke-linecap='round'/%3E%3Crect x='19.5' y='14.4' width='1.7' height='3.4' rx='.85' fill='%235f2167'/%3E%3Ccircle cx='5.5' cy='10' r='4.8' fill='%23f5b301' stroke='%235f2167' stroke-width='1.4'/%3E%3Cpath d='M2.9 10 a2.6 2.6 0 1 1 2.6 2.6' fill='none' stroke='%23ffffff' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") 6 10, pointer;
+  */
+
+  /* Cursor actual: mirilla inspirada en la diana, en plan juguete:
+     círculo azul vivo, marcas amarillas y punto rojo en el centro.
+     El punto activo es el centro exacto de la cruz (16 16). */
+  --cursor-mirilla: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='8.5' fill='none' stroke='%234fa3e3' stroke-width='3'/%3E%3Cpath d='M16 2v5M16 25v5M2 16h5M25 16h5' stroke='%23f5b301' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='2.4' fill='%23e63946'/%3E%3C/svg%3E") 16 16, pointer;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--fuente-cuerpo);
+  background-color: var(--fondo);
+  color: var(--texto);
+}
+
+main img { max-width: 100%; height: auto; }
+
+/* ---------- 2. Hero ---------- */
+.hero {
+  display: grid;
+  place-items: center;
+  padding: 44px 20px;
+  text-align: center;
+  background: var(--rosa);
+}
+
+/* Diana centrada sobre la frase */
+.hero__diana {
+  display: block;
+  margin: 0 auto 24px;
+  width: clamp(70px, 9vw, 110px);
+  height: auto;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+}
+
+/* Fila central: pistola | frase | pistola (espejada) */
+.hero__fila {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(18px, 4vw, 56px);
+}
+
+.hero__pistola {
+  width: clamp(64px, 9vw, 130px);
+  height: auto;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+}
+
+/* El revólver original apunta a la izquierda: en el lado izquierdo
+   del hero se refleja para que el cañón mire hacia la frase */
+.hero__pistola--espejada { transform: scaleX(-1); }
+
+.hero__frase {
+  font-family: var(--fuente-titulos);
+  font-weight: 500;
+  /* La frase ahora es larga (versos de ~90 caracteres): cuerpo algo
+     menor y caja más ancha para que cada verso quepa con holgura. */
+  font-size: clamp(0.95rem, 2.1vw, 1.5rem);
+  line-height: 1.6;
+  color: var(--azul-hero);
+  max-width: 64ch;
+  margin: 0;
+}
+
+.hero__frase-final {
+  font-weight: 700;
+  color: #ffe08a; /* amarillo dorado: remata la frase */
+}
+
+/* En pantallas estrechas las pistolas se ocultan: la frase manda */
+@media (max-width: 560px) {
+  .hero__pistola { display: none; }
+}
+
+/* ---------- 3. Layout de tres columnas ---------- */
+main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 46px 18px 80px;
+  width: 100%;
+  /* Mismo azul que los recuadros de los SVG: todo el bloque central
+     se funde en un solo fondo y desaparecen los huecos blancos. */
+  background-color: var(--azul-suave);
+}
+
+.lateral {
+  width: 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 34px;
+  padding-top: 20px;
+}
+
+.lateral img {
+  width: 72%;
+  max-width: 150px;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  /* Los SVG son transparentes y el main ya es azul: sin sombra ni
+     fondo propio, se funden directamente con el fondo. */
+  padding: 10px;
+}
+
+/* Remate de cada columna: la pistolita de corazones del hero, como
+   cierre. El JS la excluye del relleno repetido y la recoloca al
+   fondo; la de la derecha se espeja para apuntar hacia el formulario. */
+.lateral__final--espejada { transform: scaleX(-1); }
+
+/* ---------- 4. Formulario y preguntas ---------- */
+.formulario-panel {
+  width: 66%;
+  max-width: 880px;
+  background-color: var(--rosa-panel);
+  border-radius: 14px;
+  padding: clamp(18px, 3.5vw, 40px);
+  box-shadow: 0 0 0 9px rgba(164, 31, 174, 0.6), 0 14px 34px rgba(95, 33, 103, 0.25);
+  cursor: var(--cursor-mirilla);
+}
+
+.formulario__titulo {
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 5vw, 3.1rem);
+  color: var(--azul-fuerte);
+  text-align: center;
+  margin: 0 0 6px;
+}
+
+/* El nombre, en el mismo rojo que los enunciados de las preguntas */
+.formulario__titulo-nombre { color: var(--rosa-fuerte); }
+
+.formulario__subtitulo {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--morado);
+  margin: 0 0 34px;
+}
+
+.question {
+  /* Es un <fieldset>: se anulan el borde nativo y su min-inline-size
+     min-content, que en móviles estrechos provoca scroll horizontal. */
+  border: 0;
+  min-inline-size: auto;
+  margin: 0 0 26px;
+  background-color: var(--azul-suave);
+  border-radius: 12px;
+  padding: 22px 22px 16px;
+  box-shadow: 0 3px 10px rgba(95, 33, 103, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.question:hover {
+  transform: scale(1.012);
+  box-shadow: 0 8px 20px rgba(95, 33, 103, 0.2);
+}
+
+.question__enunciado {
+  /* <legend> no fluye como un bloque normal: el float a ancho completo
+     lo normaliza en todos los navegadores. Las .answer hacen clear. */
+  float: left;
+  width: 100%;
+  margin: 0 0 16px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--rosa-fuerte);
+  line-height: 1.4;
+  max-width: 68ch;
+  overflow-wrap: anywhere;
+}
+
+.question__numero {
+  font-family: var(--fuente-titulos);
+  font-size: 1.7rem;
+  color: var(--morado-marco);
+  margin-right: 8px;
+}
+
+/* Cada opción es un label completo: toda la fila es clicable */
+.answer {
+  clear: both;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background-color: var(--rosa-claro);
+  transition: background-color 0.2s ease;
+  cursor: var(--cursor-mirilla);
+  max-width: 68ch;
+}
+
+.answer:hover { background-color: #ffd2e5; }
+
+.answer__texto {
+  overflow-wrap: anywhere;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--texto);
+  padding-top: 2px;
+}
+
+/* Radio real, oculto de forma accesible (sigue siendo usable con teclado) */
+.answer input[type="radio"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- 5. Radios corazón (negro → dorado al marcar) ---------- */
+.icono {
+  position: relative;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+}
+
+.icono svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.icono .icono--marcado {
+  opacity: 0;
+  transform: scale(0.2) rotate(-120deg);
+}
+
+.answer input:checked ~ .icono .icono--base {
+  opacity: 0;
+  transform: scale(0.2);
+}
+
+.answer input:checked ~ .icono .icono--marcado {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+/* Foco de teclado visible sobre el icono */
+.answer input:focus-visible ~ .icono {
+  outline: 3px solid var(--dorado);
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+
+/* Campo libre de cada pregunta */
+.respuesta-libre { margin-top: 14px; }
+
+.respuesta-libre label {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--morado);
+  margin-bottom: 6px;
+}
+
+.respuesta-libre textarea {
+  display: block;
+  width: 100%;
+  max-width: 68ch;
+  min-height: 42px;
+  resize: none;
+  overflow: hidden;
+  padding: 10px 12px;
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.98rem;
+  color: var(--texto);
+  background-color: var(--blanco);
+  border: 2px solid #f3b9d6;
+  border-radius: 8px;
+  transition: border-color 0.2s ease;
+}
+
+.respuesta-libre textarea:focus-visible {
+  outline: none;
+  border-color: var(--dorado);
+  box-shadow: 0 0 0 3px rgba(245, 179, 1, 0.3);
+}
+
+/* ---------- 6. Envío y puerta 51 ---------- */
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.formulario__envio { text-align: center; margin-top: 36px; }
+
+#boton-enviar {
+  font-family: var(--fuente-cuerpo);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--morado);
+  background-color: var(--dorado);
+  border: none;
+  border-radius: 999px;
+  padding: 15px 34px;
+  cursor: var(--cursor-mirilla);
+  box-shadow: 0 4px 14px rgba(95, 33, 103, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+#boton-enviar:hover:not(:disabled),
+#boton-enviar:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(95, 33, 103, 0.4);
+}
+
+#boton-enviar:disabled {
+  opacity: 0.65;
+  transform: none;
+  /* Nada de cursor "wait" (la ruedecita de Windows): la espera la
+     cuenta el loader de estrellas, no el puntero. */
+  cursor: default;
+}
+
+/* Loader de estrellas mientras se envía (adaptado de CodePen):
+   tres estrellas doradas que laten en cadena. */
+.loader {
+  position: relative;
+  width: 60px;
+  height: 26px;
+  margin: 14px auto 0;
+  display: block;
+}
+
+.loader[hidden] { display: none; } /* el display de arriba anularía hidden */
+
+.loader-star {
+  position: absolute;
+  top: 0;
+  width: 15px;
+  height: 15px;
+}
+
+.load .star1 { animation: stars-pulse 1s ease-in-out infinite; left: 0; }
+.load .star2 { animation: stars-pulse 1s 0.2s ease-in-out infinite; left: 22px; }
+.load .star3 { animation: stars-pulse 1s 0.4s ease-in-out infinite; left: 44px; }
+
+@keyframes stars-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  80%      { transform: scale(0); opacity: 0; }
+}
+
+.estado-envio {
+  min-height: 1.4em;
+  margin-top: 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--morado);
+}
+
+.estado-envio--error { color: #b00020; }
+
+/* Puerta 51: overlay a pantalla completa tras el envío correcto */
+/* El display: grid de .puerta51 anularía el atributo hidden (las reglas
+   del autor ganan a las del navegador); esta regla lo restaura. */
+.puerta51[hidden] { display: none; }
+
+.puerta51 {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  /* Flex + margin:auto en la escena: centrada cuando cabe entera y
+     con scroll vertical cuando no (móviles), sin recortar nada. */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  overflow-x: hidden; /* el avioncito sale volando sin crear scroll lateral */
+  outline: none; /* recibe foco programático como diálogo, sin anillo */
+  /* Patrón de flores claro (azul/lila) con una viñeta lavanda muy
+     suave en los bordes que centra la mirada en la puerta. */
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0) 45%, rgba(103, 80, 130, 0.3) 100%),
+    url("patrondeflores2.jpg") center / 520px repeat #dfe9ef;
+  padding: 24px;
+}
+
+.puerta51__escena { margin: auto; }
+
+/* Galería: foto | puerta | foto. Grid con laterales de igual anchura
+   (1fr | auto | 1fr): la puerta queda SIEMPRE en el centro exacto,
+   aunque las dos fotos midan distinto, y el título de arriba se
+   alinea con ella. */
+.puerta51__galeria {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: clamp(16px, 4vw, 48px);
+}
+
+.puerta51__galeria .puerta51__foto--izda { justify-self: end; }
+.puerta51__galeria .puerta51__foto--dcha { justify-self: start; }
+
+/* Fotos enmarcadas, a juego con el papel de flores: la moldura usa
+   los mismos tonos del patrón (lila, malva y rosa empolvado, con el
+   ciruela oscuro de las hojas como filo), y el paspartú es el mismo
+   blanco azulado del fondo del patrón. Así el marco parece parte de
+   la pared y no un elemento pegado encima. width: fit-content ajusta
+   el marco al tamaño exacto de cada foto. */
+.puerta51__foto {
+  margin: 0;
+  width: fit-content;
+  padding: 9px;
+  background: #f2f0f7; /* paspartú: el blanco azulado del patrón */
+  border: 9px solid #8d7ab5;
+  border-image: linear-gradient(150deg, #d9c7f2 0%, #a88fc9 30%, #c69fb4 55%, #6c5687 80%, #cbb9e8 100%) 1;
+  box-shadow:
+    0 0 0 2px #4a3966,                        /* filo exterior ciruela */
+    inset 0 0 0 2px #4a3966,                  /* bisel interior */
+    inset 0 0 0 9px rgba(255, 255, 255, 0.28),
+    0 14px 30px rgba(74, 57, 102, 0.35);      /* sombra en tono lila */
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.puerta51__foto img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(38vw, 240px);
+  max-height: 40vh;
+  border: 1px solid rgba(74, 57, 102, 0.35); /* filete foto-paspartú */
+}
+
+.puerta51__foto--izda  { rotate: -3deg; transition: opacity 0.9s ease 1.9s, transform 0.9s ease 1.9s; }
+.puerta51__foto--dcha  { rotate: 2.5deg; transition: opacity 0.9s ease 2.2s, transform 0.9s ease 2.2s; }
+
+/* La foto derecha es horizontal: con el tope común de 240px quedaba
+   pequeña frente a la vertical; ancho extra para equilibrarlas. */
+.puerta51__foto--dcha img { max-width: min(44vw, 330px); }
+.puerta51__foto--abajo {
+  rotate: -1.5deg;
+  margin: 26px auto 0;
+  transition: opacity 0.9s ease 2.5s, transform 0.9s ease 2.5s;
+}
+
+.puerta51.abierta .puerta51__foto { opacity: 1; transform: none; }
+
+/* Móvil: no hay sitio a los lados de la puerta, así que la galería
+   se apila en columna (puerta primero, fotos después) y el overlay
+   ya permite scroll vertical para verlo todo. */
+@media (max-width: 620px) {
+  .puerta51__galeria { display: flex; flex-direction: column; gap: 28px; }
+  .puerta51__galeria .puerta51__marco { order: -1; }
+  .puerta51__galeria .puerta51__foto { margin: 0 auto; }
+  .puerta51__foto img,
+  .puerta51__foto--dcha img { max-width: min(62vw, 250px); max-height: 42vh; }
+  .puerta51__escena { padding: 8px 0 34px; }
+}
+
+.puerta51__titulo {
+  font-family: var(--fuente-titulos);
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  color: #c1121f; /* rojo intenso, legible sobre el patrón claro */
+  text-align: center;
+  margin: 0 0 26px;
+}
+
+/* Avioncito de papel junto al título */
+.puerta51__avion {
+  display: inline-block;
+  width: 1.4em;
+  height: auto;
+  margin-left: 6px;
+  vertical-align: -0.25em;
+  will-change: transform;
+}
+
+/* Al abrirse la puerta, despega: gana altura despacio, planea con
+   una leve ondulación y sale por la esquina superior derecha. */
+.puerta51.abierta .puerta51__avion {
+  animation: vuelo-avion 6.5s cubic-bezier(0.42, 0.05, 0.75, 0.5) 2.2s forwards;
+}
+
+@keyframes vuelo-avion {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  25%  { transform: translate(7vw, -3vh) rotate(-6deg); }
+  45%  { transform: translate(16vw, -8vh) rotate(-10deg); }
+  65%  { transform: translate(28vw, -13vh) rotate(-8deg); }
+  82%  { transform: translate(44vw, -24vh) rotate(-14deg); }
+  100% { transform: translate(72vw, -50vh) rotate(-18deg); }
+}
+
+.puerta51__marco {
+  position: relative;
+  /* Dimensionada por altura: en móvil apaisado la puerta nunca
+     desborda; el ancho se deriva del aspect-ratio. */
+  height: min(416px, 62vh);
+  max-width: 74vw;
+  aspect-ratio: 5 / 8;
+  /* Puerta de arco: la parte superior es una bóveda redondeada */
+  border-radius: 50% 50% 0 0 / 26% 26% 0 0;
+  background-color: #2a0c30;
+  box-shadow: 0 0 0 10px #8a2b8f, 0 24px 50px rgba(0, 0, 0, 0.5);
+  perspective: 1000px;
+  transition: box-shadow 1.2s ease 1.1s;
+}
+
+/* Al abrirse, la luz del interior se derrama alrededor del marco */
+.puerta51.abierta .puerta51__marco {
+  box-shadow:
+    0 0 0 10px #8a2b8f,
+    0 24px 50px rgba(0, 0, 0, 0.5),
+    0 0 70px rgba(245, 179, 1, 0.35);
+}
+
+.puerta51__interior {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  border-radius: 50% 50% 0 0 / 26% 26% 0 0;
+  background: radial-gradient(circle at 50% 40%, #ffe9b0 0%, #f5b301 100%);
+  overflow: hidden; /* el césped mecido no asoma fuera de la puerta */
+}
+
+/* El texto y la rosa, por delante de estrellas y césped */
+.puerta51__contenido-interior {
+  position: relative;
+  z-index: 2;
+}
+
+/* Estrellas del interior: titilan entre blanco y negro con una
+   transición larga y suave. Cada una tiene su propia duración (--d)
+   y retardo (--e), así que nunca cambian todas a la vez, y el grueso
+   del ciclo lo pasan quietas: el cambio es un acento, no un bucle
+   frenético. */
+.puerta51__estrellas span {
+  position: absolute;
+  font-size: clamp(0.75rem, 2.2vh, 1.1rem);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  animation: estrella-titila var(--d, 8s) ease-in-out var(--e, 0s) infinite;
+}
+
+@keyframes estrella-titila {
+  0%, 38%  { color: #ffffff; }
+  50%, 86% { color: #241a2e; }
+  100%     { color: #ffffff; }
+}
+
+/* Césped al pie de la puerta: ~13% de la altura del interior. Cada
+   capa es más ancha que la puerta y se mece combinando inclinación
+   (skew anclado a la base, como hierba enraizada) con un pequeño
+   desplazamiento lateral: las briznas parecen ondear, no solo
+   torcerse. Duraciones distintas y en contrafase = brisa irregular. */
+.puerta51__cesped {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 13%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.puerta51__cesped-capa {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -4%;
+  width: 108%;
+  height: 100%;
+  transform-origin: 50% 100%;
+}
+
+.puerta51__cesped-capa--fondo  { animation: viento-en-cesped 6.5s ease-in-out infinite; }
+.puerta51__cesped-capa--frente { animation: viento-en-cesped 4.5s ease-in-out -2.2s infinite; }
+
+@keyframes viento-en-cesped {
+  0%, 100% { transform: translateX(0) skewX(0deg); }
+  50%      { transform: translateX(1.4%) skewX(5deg); }
+}
+
+/* Sombra que la hoja proyecta sobre el interior: al abrirse la
+   puerta, la sombra se levanta y el interior queda iluminado. */
+.puerta51__interior::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(100deg, rgba(42, 12, 48, 0.5) 0%, transparent 60%);
+  pointer-events: none;
+  transition: opacity 1.6s ease 1s;
+}
+
+.puerta51.abierta .puerta51__interior::before { opacity: 0; }
+
+/* La rosa brota bajo el mensaje: fundido + pequeño "pop" elástico.
+   La dispara la clase "escrito", que el JS añade al terminar el tipeo. */
+.puerta51__rosa {
+  margin: 12px 0 0;
+  font-size: clamp(1.5rem, 4vh, 2rem);
+  text-align: center;
+  opacity: 0;
+  transform: scale(0.5);
+  transition:
+    opacity 0.9s ease 0.2s,
+    transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;
+}
+
+.puerta51__mensaje {
+  font-family: var(--fuente-titulos);
+  /* Un punto más pequeño que antes: el mensaje ahora es más largo
+     y tiene que caber dentro de la puerta en pantallas bajas. */
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  font-weight: 700;
+  line-height: 1.4;
+  color: #4a3966; /* el ciruela de los marcos: mismo mundo que la pared */
+  text-align: center;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1s ease 1.6s, transform 1s ease 1.6s;
+}
+
+.puerta51__hoja {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 50% 50% 0 0 / 26% 26% 0 0;
+  background: linear-gradient(115deg, #7a2d84 0%, var(--morado) 55%, #47164f 100%);
+  border: 4px solid #8a2b8f;
+  box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.35);
+  transform-origin: left center;
+  backface-visibility: hidden;
+}
+
+/* Dos cuarterones tallados: el superior sigue la curva del arco y
+   lleva un corazón grabado; el inferior es el clásico rectangular. */
+.puerta51__hoja::before,
+.puerta51__hoja::after {
+  position: absolute;
+  left: 16%;
+  right: 16%;
+  border: 3px solid rgba(138, 43, 143, 0.9);
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.2));
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.35), 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.puerta51__hoja::before {
+  content: "♥";
+  display: grid;
+  place-items: center;
+  font-size: clamp(1.4rem, 4vh, 2.2rem);
+  color: rgba(245, 179, 1, 0.55);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  top: 7%;
+  height: 36%;
+  border-radius: 50% 50% 8px 8px / 42% 42% 8px 8px;
+}
+
+.puerta51__hoja::after {
+  content: "";
+  top: 53%;
+  height: 34%;
+  border-radius: 8px;
+}
+
+/* La imagen misteriosa duerme detrás de la puerta: la hoja y el
+   interior (ambos opacos y posteriores en el DOM) la tapan del todo.
+   Solo quien venga a curiosear el código sabrá que está aquí. */
+.puerta51__escondite {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50% 50% 0 0 / 26% 26% 0 0;
+}
+
+.puerta51__pomo {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  z-index: 3;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffe9a8, var(--dorado) 55%, #b07f00);
+  box-shadow: 0 0 0 3px rgba(72, 21, 80, 0.6), 0 0 12px rgba(245, 179, 1, 0.75);
+}
+
+/* Estado abierto: la hoja gira con un pequeño rebote final
+   (se pasa un pelín y asienta), y el mensaje aparece */
+.puerta51.abierta .puerta51__hoja {
+  animation: abrir-hoja 1.9s cubic-bezier(0.55, 0, 0.25, 1) 0.5s forwards;
+}
+
+/* Además del giro con asentamiento, la hoja se va oscureciendo un
+   poco al girar: deja de recibir la luz de frente. */
+@keyframes abrir-hoja {
+  0%   { transform: rotateY(0);        filter: brightness(1); }
+  75%  { transform: rotateY(-118deg);  filter: brightness(0.82); }
+  100% { transform: rotateY(-112deg);  filter: brightness(0.85); }
+}
+
+.puerta51.abierta .puerta51__mensaje,
+.puerta51.escrito .puerta51__rosa {
+  opacity: 1;
+  transform: none;
+}
+
+/* Tipeo: cada letra es un span que ya ocupa su sitio (invisible) y
+   se revela con un fundido y un desenfoque que se disipa, como tinta
+   que se asienta. El cursor es un span que viaja con la última letra. */
+.puerta51__mensaje .letra {
+  opacity: 0;
+  filter: blur(3px);
+  transition: opacity 0.4s ease, filter 0.45s ease;
+}
+
+.puerta51__mensaje .letra--visible {
+  opacity: 1;
+  filter: blur(0);
+}
+
+.cursor-tecleo {
+  margin-left: 1px;
+  animation: parpadeo-cursor 0.8s step-end infinite;
+}
+
+@keyframes parpadeo-cursor {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* ---------- Responsive ---------- */
+/* Tablet: laterales más estrechos pero presentes */
+@media (max-width: 1080px) {
+  .lateral { width: 12%; gap: 26px; }
+  .lateral img { width: 84%; }
+  .formulario-panel { width: 74%; }
+}
+
+/* Móvil: solo el formulario */
+@media (max-width: 699px) {
+  .lateral { display: none; }
+  .formulario-panel { width: 100%; }
+}
+
+@media (max-width: 520px) {
+  main { padding: 28px 10px 90px; }
+  .formulario-panel { box-shadow: 0 0 0 6px rgba(164, 31, 174, 0.6); }
+  .question { padding: 16px 14px 12px; }
+}
+
+/* ---------- Movimiento reducido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+  .question:hover { transform: none; }
+  /* La puerta aparece ya abierta, con el mensaje y las fotos visibles.
+     La rosa depende de "escrito", que el JS añade al instante en este modo. */
+  .puerta51.abierta .puerta51__hoja { display: none; }
+  .puerta51.abierta .puerta51__mensaje,
+  .puerta51.escrito .puerta51__rosa,
+  .puerta51.abierta .puerta51__foto { opacity: 1; transform: none; }
+}

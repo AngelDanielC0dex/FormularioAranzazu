@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- El favicon (corazón) queda a la izquierda del título en la
+       pestaña, y el ❓ del propio título cierra por la derecha. -->
+  <title>Cuestionario Aránzazu ❓</title>
+  <meta name="description" content="Un formulario de 50 preguntas.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#5f2167">
+  <!-- Tarjeta de previsualización al compartir el enlace (WhatsApp, etc.).
+       Cuando tengas la URL definitiva, sustituye TU-URL en og:image por la
+       ruta absoluta a una imagen (por ejemplo una piruleta de images/). -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Cuestionario Aránzazu">
+  <meta property="og:description" content="Me gustaría entrar en tu mente para saber cómo eres realmente, pero no encuentro la puerta, así que he construido 50. Abre las que quieras.">
+  <!-- <meta property="og:image" content="https://TU-URL/images/chupachupssimple.svg"> -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Analíticas Umami (sin cookies). Para activarlas: descomenta y
+       sustituye TU-WEBSITE-ID por el ID de cloud.umami.is, y TU-DOMINIO
+       por el dominio real (ej. tuusuario.github.io). El atributo
+       data-domains evita contar tus propias pruebas en local. -->
+  <!-- <script defer src="https://cloud.umami.is/script.js" data-website-id="TU-WEBSITE-ID" data-domains="TU-DOMINIO"></script> -->
+</head>
+<body>
+
+  <!-- ============================================================
+       HERO — La frase de entrada, compacta y centrada: la diana
+       arriba y dos pistolas de corazones apuntando a la frase.
+       ============================================================ -->
+  <header class="hero">
+    <div class="hero__contenido">
+      <img class="hero__diana" src="images/Target With Love.png" alt="" decoding="async" onerror="this.remove()">
+
+      <div class="hero__fila">
+        <!-- Espejada con CSS: el revólver original apunta a la izquierda,
+             así que en este lado se voltea para apuntar hacia la frase -->
+        <img class="hero__pistola hero__pistola--espejada" src="images/pistolacorazones.png" alt="" decoding="async" onerror="this.remove()">
+        <p class="hero__frase">
+          Siento que nunca me dejaste conocerte de verdad,<br>
+          quizás es lo que quiero pensar porque no me gustó nada lo que conocí de ti,<br>
+          y no quiero terminar de creerme que seas así,<br>
+          me gustaría entrar en tu mente para saber cómo eres realmente,<br>
+          pero no encuentro la puerta, así que he construido 50.<br>
+          <span class="hero__frase-final">Abre las que quieras. Yo me guardo una que espero poder abrirte si algún día vienes a disculparte y quieres volver a entrar.</span>
+        </p>
+        <img class="hero__pistola" src="images/pistolacorazones.png" alt="" decoding="async" onerror="this.remove()">
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       MAIN — Tres columnas en escritorio:
+       imágenes | formulario | imágenes. En móvil solo el formulario.
+       Las imágenes vienen de las carpetas images/ e img/ del proyecto;
+       si alguna falta, se oculta sola (onerror) sin romper el diseño.
+       ============================================================ -->
+  <main>
+    <!-- Iconos de trazo negro: propios + OpenMoji (CC BY-SA 4.0, openmoji.org)
+         + SVG Repo + game-icons.net (CC BY 3.0). El surtido vive en
+         decoracion.js y app.js lo renderiza aquí. -->
+    <aside class="lateral lateral--izda" aria-hidden="true"></aside>
+
+    <section class="formulario-panel" id="formulario-seccion" aria-label="Formulario de 50 preguntas">
+      <form id="formulario" novalidate>
+        <h1 class="formulario__titulo">Preguntas para <span class="formulario__titulo-nombre">Aranzazú</span></h1>
+        <p class="formulario__subtitulo">Solo puedes elegir un ❤️ en cada pregunta. Ninguna es obligatoria. Todas tienen sitio para tu propia respuesta.</p>
+
+        <!-- Las 50 preguntas se generan aquí desde questions.js -->
+        <div id="preguntas"></div>
+
+        <!-- Honeypot antispam: invisible para personas, los bots lo rellenan -->
+        <input type="text" name="_gotcha" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="formulario__envio">
+          <button type="submit" id="boton-enviar">Disparar 🔫</button>
+
+          <!-- Loader de estrellas (adaptado de CodePen): se enseña
+               mientras el disparo viaja hacia Formspree -->
+          <div class="loader load" id="loader-envio" role="status" aria-label="Enviando" hidden>
+            <svg class="loader-star star1" viewBox="0 0 23.172 23.346" aria-hidden="true">
+              <polygon fill="#FDE834" points="11.586,0 8.864,8.9 0,8.9 7.193,14.447 4.471,23.346 11.586,17.84 18.739,23.346 16.77,14.985 23.172,8.9 14.306,8.9"/>
+            </svg>
+            <svg class="loader-star star2" viewBox="0 0 23.172 23.346" aria-hidden="true">
+              <polygon fill="#FDE834" points="11.586,0 8.864,8.9 0,8.9 7.193,14.447 4.471,23.346 11.586,17.84 18.739,23.346 16.77,14.985 23.172,8.9 14.306,8.9"/>
+            </svg>
+            <svg class="loader-star star3" viewBox="0 0 23.172 23.346" aria-hidden="true">
+              <polygon fill="#FDE834" points="11.586,0 8.864,8.9 0,8.9 7.193,14.447 4.471,23.346 11.586,17.84 18.739,23.346 16.77,14.985 23.172,8.9 14.306,8.9"/>
+            </svg>
+          </div>
+
+          <p id="estado-envio" class="estado-envio" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </section>
+
+    <aside class="lateral lateral--dcha" aria-hidden="true"></aside>
+  </main>
+
+  <!-- ============================================================
+       PUERTA 51 — Overlay final. Oculto hasta que el envío tiene
+       éxito: entonces la puerta se abre y revela el mensaje.
+       ============================================================ -->
+  <div class="puerta51" id="puerta51" role="dialog" aria-modal="true" aria-label="Tus respuestas vienen de camino" tabindex="-1" hidden>
+    <div class="puerta51__escena">
+      <p class="puerta51__titulo">
+        Tus respuestas vienen de camino.
+        <!-- Avioncito de papel rosa: despega y sale de la pantalla al abrirse la puerta.
+             Tres caras plegadas (ala superior clara, cuerpo medio, solapa inferior
+             oscura) con el pliegue central marcado, como un dardo de papel real. -->
+        <svg class="puerta51__avion" viewBox="0 0 100 64" aria-hidden="true">
+          <path fill="#ffd9e8" stroke="#d6336c" stroke-width="3" stroke-linejoin="round" d="M96 6 L4 30 L40 37 Z"/>
+          <path fill="#ffb3d1" stroke="#d6336c" stroke-width="3" stroke-linejoin="round" d="M96 6 L40 37 L58 45 Z"/>
+          <path fill="#ff8fbe" stroke="#d6336c" stroke-width="3" stroke-linejoin="round" d="M40 37 L44 58 L58 45 Z"/>
+          <path fill="none" stroke="#d6336c" stroke-width="2" stroke-linecap="round" d="M96 6 L44 58"/>
+        </svg>
+      </p>
+      <!-- Galería: foto | puerta | foto, y una tercera foto bajo la puerta.
+           En móvil se apilan en columna (la puerta primero) y el overlay
+           permite hacer scroll para verlo todo. -->
+      <div class="puerta51__galeria">
+        <figure class="puerta51__foto puerta51__foto--izda">
+          <img src="images/aranzaCora.jpg" alt="" loading="lazy" decoding="async" onerror="this.parentElement.remove()">
+        </figure>
+
+        <div class="puerta51__marco">
+          <!-- ¿Qué mejor escondite que detrás de una puerta? -->
+          <img class="puerta51__escondite" src="img/mistery.png" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+          <div class="puerta51__hoja" id="puerta51-hoja">
+            <span class="puerta51__pomo"></span>
+          </div>
+          <div class="puerta51__interior">
+            <!-- Estrellas que titilan entre blanco y negro, cada una a su
+                 ritmo (duración --d y retardo --e distintos por estrella).
+                 Viven en la bóveda del arco y en las esquinas bajas, lejos
+                 de la franja central donde se escribe el mensaje. -->
+            <div class="puerta51__estrellas" aria-hidden="true">
+              <span style="top: 5%;  left: 22%; --d: 7s;   --e: 0s">✦</span>
+              <span style="top: 11%; left: 47%; --d: 9s;   --e: 2.4s">✦</span>
+              <span style="top: 6%;  left: 71%; --d: 8s;   --e: 4.1s">✦</span>
+              <span style="top: 16%; left: 10%; --d: 10s;  --e: 1.3s">✦</span>
+              <span style="top: 80%; left: 9%;  --d: 8.5s; --e: 5.2s">✦</span>
+              <span style="top: 78%; left: 86%; --d: 11s;  --e: 3.5s">✦</span>
+            </div>
+
+            <div class="puerta51__contenido-interior">
+              <p class="puerta51__mensaje">
+                Adiós Aránzazu, gracias por los momentos bonitos y sonrisas que
+                "regalaste", a pesar de lo mala persona que fuiste conmigo,
+                espero que te vaya bien y ojalá que no fueses así de verdad.
+              </p>
+              <p class="puerta51__rosa" aria-hidden="true">🌹</p>
+            </div>
+
+            <!-- Césped al pie del interior: dos capas que se mecen con
+                 el viento a ritmos distintos para dar profundidad -->
+            <div class="puerta51__cesped" aria-hidden="true">
+              <svg class="puerta51__cesped-capa puerta51__cesped-capa--fondo" viewBox="0 0 200 30" preserveAspectRatio="none">
+                <path fill="#3f8f3f" d="M0,30 Q3,9 6,30 Q9,9 12,30 Q16,15 20,30 Q22,6 25,30 Q28,13 31,30 Q36,10 40,30 Q44,10 48,30 Q52,14 56,30 Q60,6 63,30 Q67,7 71,30 Q74,15 78,30 Q82,9 86,30 Q89,16 92,30 Q97,10 101,30 Q105,5 109,30 Q113,5 117,30 Q120,6 123,30 Q127,5 130,30 Q134,15 139,30 Q141,13 144,30 Q149,11 153,30 Q157,12 160,30 Q164,11 167,30 Q171,9 174,30 Q178,5 181,30 Q185,5 189,30 Q193,4 197,30 Q201,14 200,30 Z"/>
+              </svg>
+              <svg class="puerta51__cesped-capa puerta51__cesped-capa--frente" viewBox="0 0 200 30" preserveAspectRatio="none">
+                <path fill="#63b45d" d="M0,30 Q3,16 7,30 Q11,17 16,30 Q19,16 23,30 Q25,17 28,30 Q32,14 36,30 Q38,19 41,30 Q44,14 47,30 Q50,22 54,30 Q59,12 63,30 Q67,16 71,30 Q74,22 76,30 Q80,21 84,30 Q86,20 89,30 Q92,17 94,30 Q98,14 101,30 Q105,16 108,30 Q112,15 115,30 Q119,19 122,30 Q127,12 131,30 Q135,15 139,30 Q143,20 146,30 Q149,21 152,30 Q156,18 160,30 Q164,18 168,30 Q173,14 177,30 Q180,20 182,30 Q187,17 191,30 Q195,18 200,30 Z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <figure class="puerta51__foto puerta51__foto--dcha">
+          <img src="images/aranzaSonrisa.jpg" alt="" loading="lazy" decoding="async" onerror="this.parentElement.remove()">
+        </figure>
+      </div>
+
+      <figure class="puerta51__foto puerta51__foto--abajo">
+        <img src="images/yoflor.jpg" alt="" loading="lazy" decoding="async" onerror="this.parentElement.remove()">
+      </figure>
+    </div>
+  </div>
+
+  <script src="decoracion.js"></script>
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

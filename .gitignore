@@ -1,0 +1,16 @@
+# Material de origen del patrón de flores (~32 MB): la web solo usa
+# patrondeflores2.jpg, que sí se sube.
+patrondeflores/
+patrondeflores.avif
+
+# Notas internas del proyecto (el repo es público y el README cuenta
+# los secretos: la imagen escondida, el modo simulado, etc.).
+# Si prefieres tenerlo en GitHub, borra esta línea.
+README.md
+
+# Basura de sistema operativo y editores
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.log
+.vscode/
